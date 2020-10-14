@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Draw />
+    <DrawGrid />
   </div>
 </template>
 
 <script>
-import Draw from './components/Draw.vue';
+import DrawGrid from './components/DrawGrid.vue';
 
 export default {
   name: 'App',
   components: {
-    Draw,
+    DrawGrid,
   },
 };
 </script>

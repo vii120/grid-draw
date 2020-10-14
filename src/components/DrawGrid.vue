@@ -1,6 +1,14 @@
 <template>
-  <div>
-    <div class="draw-btn" @click="drawLighting">DRAW!</div>
+  <div :class="{ mask: isPlaying }">
+    <div class="btn-box">
+      <div
+        class="btn draw-btn"
+        :class="{ disabled: isPlaying }"
+        @click="drawLighting"
+      >
+        DRAW
+      </div>
+    </div>
     <div class="grid-wrapper">
       <div
         class="grid-item"
@@ -11,12 +19,19 @@
         {{ item.content }}
       </div>
     </div>
+    <div class="result-box" v-if="resultValue">RESULT: {{ resultValue }}</div>
   </div>
 </template>
 
 <script>
+import { delay } from '@/utils';
+
+const speed = {
+  default: 800,
+  active: 180,
+};
 export default {
-  name: 'Draw',
+  name: 'DrawGrid',
   data() {
     return {
       currentIdx: 0,
@@ -32,6 +47,8 @@ export default {
         { content: '可可鮮奶' },
       ],
       timer: null,
+      resultValue: null,
+      isPlaying: false,
     };
   },
   computed: {
@@ -53,20 +70,24 @@ export default {
     },
     defaultLighting() {
       clearInterval(this.timer);
-      this.timer = setInterval(this.checkNext, 800);
+      this.timer = setInterval(this.checkNext, speed.default);
     },
     drawLighting() {
+      this.isPlaying = true;
       let count = 0;
       clearInterval(this.timer);
       const target = Math.floor(Math.random() * (this.listLen - 1));
-      this.timer = setInterval(() => {
+      this.timer = setInterval(async () => {
         count += 1;
         this.randomNext();
-        if (this.currentIdx === target && count >= this.listLen * 2) {
-          // this.defaultLighting();
+        if (this.currentIdx === target && count >= this.listLen) {
           clearInterval(this.timer);
+          this.resultValue = this.gridList[target].content;
+          await delay(3000);
+          this.isPlaying = false;
+          this.defaultLighting();
         }
-      }, 300);
+      }, speed.active);
     },
   },
   mounted() {
@@ -75,29 +96,47 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.draw-btn {
-  width: 100px;
-  margin: 12px auto;
-  padding: 12px;
-  border-radius: 24px;
-  background-color: #ffcc33;
+.mask {
+  pointer-events: none;
+}
+.btn-box {
+  @include flexCenter;
+  margin-bottom: 0.1rem;
+  .btn {
+    width: 1rem;
+    padding: 0.1rem;
+    margin: 0 0.1rem;
+    border-radius: 0.2rem;
+    color: #fff;
+    cursor: pointer;
+    &.disabled {
+      background-color: grey;
+      cursor: not-allowed;
+    }
+  }
+  .draw-btn {
+    background-color: #ffaf00;
+  }
 }
 .grid-wrapper {
   @include flexCenter;
   flex-wrap: wrap;
-  width: 600px;
+  width: 4.5rem;
+  height: 4.5rem;
   margin: auto;
-  background-color: wheat;
 }
 .grid-item {
-  width: 180px;
-  height: 180px;
-  margin: 10px;
+  width: 30%;
+  height: 30%;
+  margin: 1%;
   @include flexCenter;
   background-color: #fcfcfc;
   &.active {
     background-color: teal;
     color: #fff;
   }
+}
+.result-box {
+  margin-top: 0.2rem;
 }
 </style>
