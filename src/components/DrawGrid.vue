@@ -19,7 +19,9 @@
         {{ item.content }}
       </div>
     </div>
-    <div class="result-box" v-if="resultValue">RESULT: {{ resultValue }}</div>
+    <div class="result-box" v-if="resultValue">
+      LATEST RESULT: {{ resultValue }}
+    </div>
   </div>
 </template>
 
@@ -85,6 +87,7 @@ export default {
           this.resultValue = this.gridList[target].content;
           await delay(3000);
           this.isPlaying = false;
+          this.checkNext();
           this.defaultLighting();
         }
       }, speed.active);
@@ -138,5 +141,6 @@ export default {
 }
 .result-box {
   margin-top: 0.2rem;
+  font-weight: bold;
 }
 </style>
