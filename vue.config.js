@@ -5,6 +5,9 @@ module.exports = {
   devServer: {
     port: 8077,
   },
+  pages: {
+    index: { entry: 'src/main.js', title: 'test titleeee' },
+  },
   configureWebpack: {
     resolve: {
       alias: {
