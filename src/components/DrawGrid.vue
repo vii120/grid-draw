@@ -6,7 +6,10 @@
         :class="{ disabled: isPlaying }"
         @click="drawLighting"
       >
-        DRAW
+        <span>d</span>
+        <span>r</span>
+        <span>a</span>
+        <span>w</span>
       </div>
     </div>
     <div class="grid-wrapper">
@@ -99,44 +102,56 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$main-color: #fff2d6;
+$shadow-color: #ffaf00;
+
 .mask {
   pointer-events: none;
 }
 .btn-box {
   @include flexCenter;
-  margin-bottom: 0.1rem;
   .btn {
-    width: 1rem;
     padding: 0.1rem;
-    margin: 0 0.1rem;
-    border-radius: 0.2rem;
-    color: #fff;
     cursor: pointer;
-    &.disabled {
-      background-color: grey;
-      cursor: not-allowed;
-    }
+    font-family: 'Pacifico', cursive;
   }
   .draw-btn {
-    background-color: #ffaf00;
+    font-size: 0.7rem;
+    color: $main-color;
+    text-shadow: 0 0 12px $shadow-color, 0 0 20px $shadow-color,
+      0 0 50px $main-color;
+    &:not(.disabled) span:nth-child(2) {
+      animation: blink 3s linear both infinite;
+    }
+    &.disabled {
+      filter: grayscale(1) brightness(0.7);
+      cursor: not-allowed;
+    }
   }
 }
 .grid-wrapper {
   @include flexCenter;
+  justify-content: space-between;
   flex-wrap: wrap;
   width: 4.5rem;
   height: 4.5rem;
-  margin: auto;
+  margin: 0.1rem auto;
 }
 .grid-item {
-  width: 30%;
-  height: 30%;
+  width: calc(30% - 6px);
+  height: calc(30% - 6px);
   margin: 1%;
+  color: $main-color;
+  font-weight: bold;
+  text-shadow: 2px 2px #000, 0 0 8px $shadow-color;
   @include flexCenter;
-  background-color: #fcfcfc;
+  border-radius: 12px;
+  border: 3px solid;
+  box-shadow: 0 0 10px 2px $shadow-color, inset 0 0 10px 2px $shadow-color;
   &.active {
-    background-color: teal;
-    color: #fff;
+    color: #f8b3b3;
+    text-shadow: 2px 2px #000, 0 0 8px indianred;
+    box-shadow: 0 0 10px 2px indianred, inset 0 0 10px 2px indianred;
   }
 }
 .result-box {
