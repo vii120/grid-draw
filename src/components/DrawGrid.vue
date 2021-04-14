@@ -116,10 +116,15 @@ $shadow-color: #ffaf00;
     font-family: 'Pacifico', cursive;
   }
   .draw-btn {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     color: $main-color;
     text-shadow: 0 0 12px $shadow-color, 0 0 20px $shadow-color,
       0 0 50px $main-color;
+    border-radius: 0.6rem;
+    background-color: rgba(#fff, 0.8);
+    box-shadow: 0 0 0 6px rgba(#fff, 0.35);
+    padding: 0.1rem 0.3rem;
+    margin-bottom: 0.15rem;
     &:not(.disabled) span:nth-child(2) {
       animation: blink 3s linear both infinite;
     }
